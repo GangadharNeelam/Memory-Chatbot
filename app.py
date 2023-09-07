@@ -197,10 +197,19 @@ def main():
                 except Exception as e:
                     # Handle exceptions gracefully
                     st.error(f"An error occurred: {str(e)}")
+                    
+
                 
                 docs = VectorStore.similarity_search(query, k=2)
                 with st.expander("Citiation (relevant pages))"):
                     st.write(docs)
+                    
+                with open('your_file.pkl', 'rb') as file:
+                    db = pickle.load(file)
+                
+                db_docs = db.similarity_search(query, k=2)
+                with st.expander("Citiation (relevant pages in db))"):
+                    st.write(db_docs)
                             
             
         # Allow the user to view the conversation history and other information stored in the agent's memory
