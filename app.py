@@ -221,7 +221,7 @@ with st.sidebar:
                     """)
     
     with st.expander("Architecture"):
-        image = Image.open(r'D:\Celebal Technologies\Learning_Development\NLP\PDF-Chat-Bot\Architecture.jpg')
+        image = Image.open(r'.\Architecture.jpg')
         st.image(image, caption='Architecture')
         
         
