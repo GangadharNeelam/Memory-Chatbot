@@ -112,66 +112,70 @@ def main():
         store_name = pdf.name[:-4]
         VectorStore = embed_chunks(chunks=chunks, store_name=store_name)
         
-        # Q&A chain
-        qa = RetrievalQA.from_chain_type(
-            llm=OpenAI(),
-            chain_type="stuff",
-            retriever=VectorStore.as_retriever()
-            )
-        
-        # Tool for the agent
-        tools = [
-            Tool(
-                name="State of Union QA System",
-                func=qa.run,
-                description="useful for when you need to answer questions about current events. Input may be a partial or fully formed question.",
-            )
-        ]
-        
-        prefix = """
-        Have a conversation with a human, answering the following questions as best you can based on the context and memory available.
-        You have access to the single tool
-        """
-        suffix = """Begin!
+        api = st.text_input("Enter your OpenAI API key", type="password",
+                            placeholder="sk-", help="https://platform.openai.com/account/api-keys")
 
-        {chat_history}
-        Question: {input}
-        {agent_scratchpad}"""
-
-        prompt_template = ZeroShotAgent.create_prompt(
-            tools, prefix=prefix, suffix=suffix, input_variables=["input", "chat_history", "agent_scratchpad"]
-        )
-        
-        if "memory" not in st.session_state:
-            st.session_state.memory = ConversationBufferMemory(
-                memory_key = "chat_history",
-            )
-        
-        llm = OpenAI(model_name = "gpt-3.5-turbo")
-        llm_chain = LLMChain(
-            llm=llm,
-            prompt=prompt_template
-            )        
-        
-          
-        agent = ZeroShotAgent(llm_chain=llm_chain, tools=tools, verbose=True)
-        agent_executor = AgentExecutor.from_agent_and_tools(
-                agent=agent, 
-                tools=tools, 
-                verbose=True,
-                memory = st.session_state.memory
-        )
-        
-        
-        # Accept user questions/queries
-        query = st.text_input("Ask questions about the PDF")
-        if query:
-            res = agent_executor.run(query)
-            st.info(res, icon="🤖")
+        if api:
+            # Q&A chain
+            qa = RetrievalQA.from_chain_type(
+                llm=OpenAI(),
+                chain_type="stuff",
+                retriever=VectorStore.as_retriever()
+                )
             
-        # docs = VectorStore.similarity_search(query, k=2)
-        # with st.expander("Citiation (relevant pages))"):
-        #     st.write(docs)            
+            # Tool for the agent
+            tools = [
+                Tool(
+                    name="State of Union QA System",
+                    func=qa.run,
+                    description="useful for when you need to answer questions about current events. Input may be a partial or fully formed question.",
+                )
+            ]
+            
+            prefix = """
+            Have a conversation with a human, answering the following questions as best you can based on the context and memory available.
+            You have access to the single tool
+            """
+            suffix = """Begin!
+
+            {chat_history}
+            Question: {input}
+            {agent_scratchpad}"""
+
+            prompt_template = ZeroShotAgent.create_prompt(
+                tools, prefix=prefix, suffix=suffix, input_variables=["input", "chat_history", "agent_scratchpad"]
+            )
+            
+            if "memory" not in st.session_state:
+                st.session_state.memory = ConversationBufferMemory(
+                    memory_key = "chat_history",
+                )
+            
+            llm = OpenAI(model_name = "gpt-3.5-turbo")
+            llm_chain = LLMChain(
+                llm=llm,
+                prompt=prompt_template
+                )        
+            
+            
+            agent = ZeroShotAgent(llm_chain=llm_chain, tools=tools, verbose=True)
+            agent_executor = AgentExecutor.from_agent_and_tools(
+                    agent=agent, 
+                    tools=tools, 
+                    verbose=True,
+                    memory = st.session_state.memory
+            )
+            
+            
+            # Accept user questions/queries
+            query = st.text_input("Ask questions about the PDF")
+            if query:
+                res = agent_executor.run(query)
+                st.info(res, icon="🤖")
+                
+            # docs = VectorStore.similarity_search(query, k=2)
+            # with st.expander("Citiation (relevant pages))"):
+            #     st.write(docs)            
 
             
         # Allow the user to view the conversation history and other information stored in the agent's memory
