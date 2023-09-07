@@ -99,8 +99,7 @@ def embed_chunks(chunks: list, store_name: str, api: str):
     
 def main():
     # Main page title
-    st.header("Chat with PDF")   
-    
+    st.header("Chat with PDF")
     
     # Upload pdf file
     pdf = st.file_uploader("Upload a PDF file", type="pdf")
@@ -117,8 +116,8 @@ def main():
                                               max_value=len(chunks))
                 chunks[page_select-1]
         
-        api = st.text_input("Enter your OpenAI API key", type="password",
-                            placeholder="sk-", help="https://platform.openai.com/account/api-keys")
+            api = st.text_input("Enter your OpenAI API key", type="password",
+                        placeholder="sk-", help="https://platform.openai.com/account/api-keys")
         
         if api:
             
