@@ -112,7 +112,9 @@ def main():
         
         if chunks:
             with st.expander("PDF Content", expanded=False):
-                page_select = st.number_input(label = "select page", max_val=len(chunks), step=1, min_value=1)
+                page_select = st.number_input(label = "select page", 
+                                              step=1, min_value=1,
+                                              max_value=len(chunks))
                 chunks[page_select-1]
         
         api = st.text_input("Enter your OpenAI API key", type="password",
