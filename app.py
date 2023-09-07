@@ -2,7 +2,6 @@ import streamlit as st
 import pickle
 import os
 import openai
-from dotenv import load_dotenv
 from PIL import Image
 
 
@@ -99,8 +98,6 @@ def main():
     # Main page title
     st.header("Chat with PDF")   
     
-    # Load openai api key
-    load_dotenv()
     
     # Upload pdf file
     pdf = st.file_uploader("Upload a PDF file", type="pdf")
@@ -118,7 +115,7 @@ def main():
         if api:
             # Q&A chain
             qa = RetrievalQA.from_chain_type(
-                llm=OpenAI(),
+                llm=OpenAI(openai_api_key=api),
                 chain_type="stuff",
                 retriever=VectorStore.as_retriever()
                 )
@@ -151,7 +148,7 @@ def main():
                     memory_key = "chat_history",
                 )
             
-            llm = OpenAI(model_name = "gpt-3.5-turbo")
+            llm = OpenAI(model_name = "gpt-3.5-turbo", openai_api_key=api)
             llm_chain = LLMChain(
                 llm=llm,
                 prompt=prompt_template
