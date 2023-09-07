@@ -85,14 +85,14 @@ def embed_chunks(chunks: list, store_name: str, api: str):
     if os.path.exists(f"{store_name}.pkl"):
         with open(f"{store_name}.pkl", "rb") as f:
             VectorStore = pickle.load(f)
-        st.write("Embeddings loaded from the disk")
+        # st.write("Embeddings loaded from the disk")
         return VectorStore
     else:
         embeddings = OpenAIEmbeddings(openai_api_key=api)
         VectorStore = FAISS.from_texts(chunks, embeddings)
         with open(f"{store_name}.pkl", "wb") as f:
             pickle.dump(VectorStore, f)
-        st.write("Embeddings generated and saved to disk")
+        # st.write("Embeddings generated and saved to disk")
         return VectorStore
 
 
