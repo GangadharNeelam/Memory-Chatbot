@@ -145,9 +145,12 @@ def main():
             )
             
             # Initialize the session state memory 
-            st.session_state["memory"] = {}
+            # st.session_state["memory"] = {}
+            # if "memory" not in st.session_state:
+            #     st.session_state["memory"] = ConversationBufferMemory(memory_key = "chat_history")
+            
             if "memory" not in st.session_state:
-                st.session_state["memory"] = ConversationBufferMemory(memory_key = "chat_history")
+                st.session_state.memory = ConversationBufferMemory(memory_key = "chat_history")
             
             llm = OpenAI(model_name = "gpt-3.5-turbo", openai_api_key=api)
             llm_chain = LLMChain(
