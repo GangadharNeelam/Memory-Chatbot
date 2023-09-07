@@ -26,6 +26,7 @@ from langchain.callbacks import get_openai_callback
 
     
 # Extract content from PDF
+@st.cache_data
 def content_extractor(pdf) -> str:
     
     """
@@ -45,6 +46,7 @@ def content_extractor(pdf) -> str:
     return text
 
 # Split content into chunks
+@st.cache_data
 def text_splitter(text: str) -> list:
     
     """
@@ -66,6 +68,7 @@ def text_splitter(text: str) -> list:
     return chunks
 
 # Embed chunks
+@st.cache_data
 def embed_chunks(chunks: list, store_name: str, api: str):
     """
     Check if embeddings are already generated or not. If yes load embeddings from disk.
@@ -149,9 +152,9 @@ def main():
             # if "memory" not in st.session_state:
             #     st.session_state["memory"] = ConversationBufferMemory(memory_key = "chat_history")
             
-            if "memory" not in st.session_state:
-                st.session_state["memory"] = None
-            st.session_state["memory"] = ConversationBufferMemory(memory_key = "chat_history")
+            "st.session stae object", st.session_state
+            if "memory" not in st.session_state:  
+                st.session_state["memory"] = ConversationBufferMemory(memory_key = "chat_history")
             
             llm = OpenAI(model_name = "gpt-3.5-turbo", openai_api_key=api)
             llm_chain = LLMChain(
