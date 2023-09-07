@@ -66,7 +66,7 @@ def text_splitter(text: str) -> list:
     return chunks
 
 # Embed chunks
-def embed_chunks(chunks: list, store_name: str):
+def embed_chunks(chunks: list, store_name: str, api: str):
     """
     Check if embeddings are already generated or not. If yes load embeddings from disk.
     Otherwise generate embeddings and save to disk for future use.
@@ -85,7 +85,7 @@ def embed_chunks(chunks: list, store_name: str):
         st.write("Embeddings loaded from the disk")
         return VectorStore
     else:
-        embeddings = OpenAIEmbeddings()
+        embeddings = OpenAIEmbeddings(openai_api_key=api)
         VectorStore = FAISS.from_texts(chunks, embeddings)
         with open(f"{store_name}.pkl", "wb") as f:
             pickle.dump(VectorStore, f)
@@ -106,11 +106,12 @@ def main():
         text = content_extractor(pdf=pdf)
         chunks = text_splitter(text=text)
         
-        store_name = pdf.name[:-4]
-        VectorStore = embed_chunks(chunks=chunks, store_name=store_name)
         
         api = st.text_input("Enter your OpenAI API key", type="password",
                             placeholder="sk-", help="https://platform.openai.com/account/api-keys")
+        
+        store_name = pdf.name[:-4]
+        VectorStore = embed_chunks(chunks=chunks, store_name=store_name, api=api)
 
         if api:
             # Q&A chain
