@@ -204,13 +204,6 @@ def main():
                 docs = VectorStore.similarity_search(query, k=2)
                 with st.expander("Citiation (relevant pages))"):
                     st.write(docs)
-                    
-                with open('chatbot_embeddings.pkl', 'rb') as file:
-                    db = pickle.load(file)
-                
-                db_docs = db.similarity_search(query, k=2)
-                with st.expander("Citiation2 (relevant pages in db))"):
-                    st.write(db_docs)
                             
             
         # Allow the user to view the conversation history and other information stored in the agent's memory
