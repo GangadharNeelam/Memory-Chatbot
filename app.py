@@ -116,8 +116,8 @@ def main():
                                               max_value=len(chunks))
                 chunks[page_select-1]
         
-            api = st.text_input("Enter your OpenAI API key", type="password",
-                        placeholder="sk-", help="https://platform.openai.com/account/api-keys")
+        api = st.text_input("Enter your OpenAI API key", type="password",
+                    placeholder="sk-", help="https://platform.openai.com/account/api-keys")
         
         if api:
             
