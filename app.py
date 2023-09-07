@@ -253,7 +253,7 @@ with st.sidebar:
         image = Image.open('Architecture.jpg')
         st.image(image, caption='Architecture')
         image2 = Image.open('Architecture2.jpg')
-        st.image(image, caption='Internal Architecture')
+        st.image(image2, caption='Internal Architecture')
         
     add_vertical_space(3)
     st.write("Made by Gangadhar😊")
