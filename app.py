@@ -152,7 +152,7 @@ def main():
             # if "memory" not in st.session_state:
             #     st.session_state["memory"] = ConversationBufferMemory(memory_key = "chat_history")
             
-            "st.session stae object", st.session_state
+            # "st.session stae object", st.session_state
             if "memory" not in st.session_state:  
                 st.session_state["memory"] = ConversationBufferMemory(memory_key = "chat_history")
             
