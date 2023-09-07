@@ -217,8 +217,9 @@ with st.sidebar:
     with st.expander("Steps", expanded=True):
         st.markdown("""
                     1. Upload a PDF file
-                    2. Ask questions about the PDF
-                    3. Get answers from the PDF
+                    2. Enter OpenAI API key
+                    3. Ask questions about the PDF
+                    4. Get answers from the PDF
                     """)       
 
         
