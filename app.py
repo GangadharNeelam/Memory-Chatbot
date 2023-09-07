@@ -174,9 +174,20 @@ def main():
             
             # Accept user questions/queries
             query = st.text_input("Ask questions about the PDF")
+            # if query:
+            #     res = agent_executor.run(query)
+            #     st.write(res)
             if query:
-                res = agent_executor.run(query)
-                st.info(res, icon="🤖")
+                try:
+                    # Use the agent_executor to get a response
+                    res = agent_executor.run(query)
+                    
+                    # Display the response using st.write
+                    st.write("Agent Response:")
+                    st.write(res)
+                except Exception as e:
+                    # Handle exceptions gracefully
+                    st.error(f"An error occurred: {str(e)}")
                 
             # docs = VectorStore.similarity_search(query, k=2)
             # with st.expander("Citiation (relevant pages))"):
