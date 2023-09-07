@@ -110,11 +110,11 @@ def main():
         api = st.text_input("Enter your OpenAI API key", type="password",
                             placeholder="sk-", help="https://platform.openai.com/account/api-keys")
         
-        store_name = pdf.name[:-4]
-        VectorStore = embed_chunks(chunks=chunks, store_name=store_name, api=api)
 
         if api:
             # Q&A chain
+            store_name = pdf.name[:-4]
+            VectorStore = embed_chunks(chunks=chunks, store_name=store_name, api=api)
             qa = RetrievalQA.from_chain_type(
                 llm=OpenAI(openai_api_key=api),
                 chain_type="stuff",
