@@ -205,11 +205,11 @@ def main():
                 with st.expander("Citiation (relevant pages))"):
                     st.write(docs)
                     
-                with open('your_file.pkl', 'rb') as file:
+                with open('chatbot_embeddings.pkl', 'rb') as file:
                     db = pickle.load(file)
                 
                 db_docs = db.similarity_search(query, k=2)
-                with st.expander("Citiation (relevant pages in db))"):
+                with st.expander("Citiation2 (relevant pages in db))"):
                     st.write(db_docs)
                             
             
