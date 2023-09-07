@@ -105,15 +105,20 @@ def main():
     # Upload pdf file
     pdf = st.file_uploader("Upload a PDF file", type="pdf")
     
-    if pdf is not None:
+    if pdf:
+        
+        text = content_extractor(pdf=pdf)
+        chunks = text_splitter(text=text)
+        
+        if chunks:
+            with st.expander("PDF Content", expanded=False):
+                page_select = st.number_input(label = "select page", value=len(chunks), step=1, min_value=1)
+                chunks[page_select]
         
         api = st.text_input("Enter your OpenAI API key", type="password",
                             placeholder="sk-", help="https://platform.openai.com/account/api-keys")
         
         if api:
-            
-            text = content_extractor(pdf=pdf)
-            chunks = text_splitter(text=text)
             
             if "memory" not in st.session_state:  
                 st.session_state["memory"] = ConversationBufferMemory(memory_key = "chat_history")
