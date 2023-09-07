@@ -198,10 +198,12 @@ def main():
                     # Handle exceptions gracefully
                     st.error(f"An error occurred: {str(e)}")
                 
-            # docs = VectorStore.similarity_search(query, k=2)
-            # with st.expander("Citiation (relevant pages))"):
-            #     st.write(docs)            
-
+            docs = VectorStore.similarity_search(query, k=2)
+            with st.expander("Citiation (relevant pages))"):
+                st.write(docs)
+                            
+            docs = VectorStore.similarity_search(query, k=2)
+            with 
             
         # Allow the user to view the conversation history and other information stored in the agent's memory
         with st.expander("History/Memory"):
