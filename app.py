@@ -144,6 +144,8 @@ def main():
                 tools, prefix=prefix, suffix=suffix, input_variables=["input", "chat_history", "agent_scratchpad"]
             )
             
+            # Initialize the session state memory 
+            st.session_state["memory"] = {}
             if "memory" not in st.session_state:
                 st.session_state["memory"] = ConversationBufferMemory(memory_key = "chat_history")
             
