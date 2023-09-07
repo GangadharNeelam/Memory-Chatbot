@@ -106,15 +106,18 @@ def main():
     pdf = st.file_uploader("Upload a PDF file", type="pdf")
     
     if pdf is not None:
-        text = content_extractor(pdf=pdf)
-        chunks = text_splitter(text=text)
-        
         
         api = st.text_input("Enter your OpenAI API key", type="password",
                             placeholder="sk-", help="https://platform.openai.com/account/api-keys")
         
-
         if api:
+            
+            text = content_extractor(pdf=pdf)
+            chunks = text_splitter(text=text)
+            
+            if "memory" not in st.session_state:  
+                st.session_state["memory"] = ConversationBufferMemory(memory_key = "chat_history")
+                
             # Q&A chain
             store_name = pdf.name[:-4]
             VectorStore = embed_chunks(chunks=chunks, store_name=store_name, api=api)
@@ -153,8 +156,7 @@ def main():
             #     st.session_state["memory"] = ConversationBufferMemory(memory_key = "chat_history")
             
             # "st.session stae object", st.session_state
-            if "memory" not in st.session_state:  
-                st.session_state["memory"] = ConversationBufferMemory(memory_key = "chat_history")
+
             
             llm = OpenAI(model_name = "gpt-3.5-turbo", openai_api_key=api)
             llm_chain = LLMChain(
