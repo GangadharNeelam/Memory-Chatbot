@@ -121,6 +121,7 @@ def main():
         
         if api:
             
+            
             if "memory" not in st.session_state:  
                 st.session_state["memory"] = ConversationBufferMemory(memory_key = "chat_history")
                 
